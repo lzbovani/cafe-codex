@@ -1,10 +1,18 @@
-﻿const path = require('path');
+﻿const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const dbPath = path.join(__dirname, 'data', 'clicks.db');
+
+const defaultDbPath = process.env.RENDER
+  ? path.join('/tmp', 'cafe-codex', 'clicks.db')
+  : path.join(__dirname, 'data', 'clicks.db');
+const dbPath = process.env.DB_PATH || defaultDbPath;
+const dbDir = path.dirname(dbPath);
+
+fs.mkdirSync(dbDir, { recursive: true });
 
 const db = new sqlite3.Database(dbPath);
 
@@ -64,9 +72,10 @@ app.get('/api/ranking', (_req, res) => {
 });
 
 app.get('/health', (_req, res) => {
-  res.json({ ok: true });
+  res.json({ ok: true, dbPath });
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Banco SQLite em: ${dbPath}`);
 });

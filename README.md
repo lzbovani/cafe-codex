@@ -1,25 +1,25 @@
 ﻿# Cafe Codex
 
-Site de cafe gourmet com tema dourado e preto, pronto para GitHub Pages.
+Site de cafe gourmet com tema dourado e preto.
 
-## Publicar no GitHub Pages
+## GitHub Pages (somente estatico)
 
-1. Entre no repositório `lzbovani/cafe-codex`.
-2. Abra `Settings` > `Pages`.
-3. Em `Build and deployment`, selecione:
-   - `Source`: Deploy from a branch
-   - `Branch`: `master` (root)
-4. Salve e aguarde a URL pública.
-
-URL esperada:
+URL:
 `https://lzbovani.github.io/cafe-codex/`
 
-## Funcionalidades
+No GitHub Pages, o site funciona e usa fallback local (`localStorage`) caso nao exista backend.
 
-- Landing page de venda de cafe gourmet.
-- Botao `Comprar` registra o clique em `localStorage`.
-- Botao `O que mais compram` mostra ranking salvo no navegador.
+## Render (ranking compartilhado para todos)
 
-## Observacao
+No Render, o frontend usa a API (`/api/click` e `/api/ranking`) e todos veem o mesmo ranking.
 
-O ranking em `localStorage` e local por navegador/dispositivo. Se o usuario limpar os dados do navegador, o ranking zera.
+1. Abra o servico `cafe-codex` no Render.
+2. Clique em `Manual Deploy` > `Deploy latest commit`.
+3. Aguarde concluir o build/deploy.
+4. Acesse a URL do servico.
+
+## Observacao sobre SQLite no Render
+
+- O banco funciona com caminho padrao em `/tmp/cafe-codex/clicks.db`.
+- Em free plan, dados podem ser perdidos quando a instancia reinicia.
+- Para persistencia real, use disco persistente e defina `DB_PATH` (exemplo: `/var/data/clicks.db`).

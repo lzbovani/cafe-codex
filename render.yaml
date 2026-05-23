@@ -6,3 +6,6 @@
     buildCommand: npm install
     startCommand: npm start
     autoDeploy: true
+    envVars:
+      - key: DB_PATH
+        value: /tmp/cafe-codex/clicks.db

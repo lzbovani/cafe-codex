@@ -1,23 +1,25 @@
 ﻿# Cafe Codex
 
-Site de cafe gourmet com tema dourado e preto, tracking de clique em compra e ranking de interesse.
+Site de cafe gourmet com tema dourado e preto, pronto para GitHub Pages.
 
-## Rodar localmente
+## Publicar no GitHub Pages
 
-1. Instale dependencias:
-   npm install
-2. Inicie o servidor:
-   npm start
-3. Abra no navegador:
-   http://localhost:3000
+1. Entre no repositório `lzbovani/cafe-codex`.
+2. Abra `Settings` > `Pages`.
+3. Em `Build and deployment`, selecione:
+   - `Source`: Deploy from a branch
+   - `Branch`: `master` (root)
+4. Salve e aguarde a URL pública.
+
+URL esperada:
+`https://lzbovani.github.io/cafe-codex/`
 
 ## Funcionalidades
 
 - Landing page de venda de cafe gourmet.
-- Botao `Comprar` salva clique no banco SQLite.
-- Botao `O que mais compram` mostra ranking com base nos cliques salvos.
+- Botao `Comprar` registra o clique em `localStorage`.
+- Botao `O que mais compram` mostra ranking salvo no navegador.
 
-## Banco de dados
+## Observacao
 
-- Banco SQLite em `data/clicks.db` (criado automaticamente ao iniciar o servidor).
-- Tabela: `purchase_clicks`.
+O ranking em `localStorage` e local por navegador/dispositivo. Se o usuario limpar os dados do navegador, o ranking zera.

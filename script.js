@@ -6,7 +6,7 @@
 
 const lista = document.getElementById('lista-produtos');
 const telefone = '5511999999999';
-const apiBase = window.location.origin;
+const STORAGE_KEY = 'cafe_codex_click_ranking_v1';
 
 function criarCards() {
   produtos.forEach((produto) => {
@@ -22,15 +22,36 @@ function criarCards() {
   });
 }
 
-async function salvarClique(productName, priceLabel) {
+function lerRankingLocal() {
+  const cru = localStorage.getItem(STORAGE_KEY);
+  if (!cru) return {};
+
   try {
-    await fetch(`${apiBase}/api/click`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productName, priceLabel })
-    });
-  } catch (_error) {
+    return JSON.parse(cru);
+  } catch (_erro) {
+    return {};
   }
+}
+
+function salvarRankingLocal(ranking) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ranking));
+}
+
+function registrarClique(productName, priceLabel) {
+  const ranking = lerRankingLocal();
+  const chave = `${productName}||${priceLabel}`;
+
+  if (!ranking[chave]) {
+    ranking[chave] = { productName, priceLabel, totalClicks: 0 };
+  }
+
+  ranking[chave].totalClicks += 1;
+  salvarRankingLocal(ranking);
+}
+
+function obterRankingOrdenado() {
+  const ranking = lerRankingLocal();
+  return Object.values(ranking).sort((a, b) => b.totalClicks - a.totalClicks);
 }
 
 function abrirWhatsApp(produto) {
@@ -42,13 +63,13 @@ const linkRodape = document.getElementById('whatsapp-link');
 const msgPadrao = encodeURIComponent('Olá! Quero conhecer os cafés gourmet da Ouro do Grão.');
 linkRodape.href = `https://wa.me/${telefone}?text=${msgPadrao}`;
 
-document.addEventListener('click', async (e) => {
+document.addEventListener('click', (e) => {
   const botaoCompra = e.target.closest('[data-produto]');
   if (botaoCompra) {
     e.preventDefault();
     const produto = botaoCompra.getAttribute('data-produto');
     const preco = botaoCompra.getAttribute('data-preco');
-    await salvarClique(produto, preco);
+    registrarClique(produto, preco);
     abrirWhatsApp(produto);
   }
 });
@@ -58,34 +79,26 @@ const rankingLista = document.getElementById('ranking-lista');
 const btnRanking = document.getElementById('btn-ranking');
 const fecharRanking = document.getElementById('fechar-ranking');
 
-async function carregarRanking() {
-  rankingLista.innerHTML = '<li>Carregando ranking...</li>';
+function carregarRanking() {
+  const ranking = obterRankingOrdenado();
 
-  try {
-    const resposta = await fetch(`${apiBase}/api/ranking`);
-    const dados = await resposta.json();
-    const ranking = dados.ranking || [];
-
-    if (!ranking.length) {
-      rankingLista.innerHTML = '<li>Ainda sem cliques registrados.</li>';
-      return;
-    }
-
-    rankingLista.innerHTML = '';
-    ranking.forEach((item) => {
-      const li = document.createElement('li');
-      li.textContent = `${item.productName} (${item.priceLabel}) - ${item.totalClicks} clique(s)`;
-      rankingLista.appendChild(li);
-    });
-  } catch (_error) {
-    rankingLista.innerHTML = '<li>Não foi possível carregar agora.</li>';
+  if (!ranking.length) {
+    rankingLista.innerHTML = '<li>Ainda sem cliques registrados neste navegador.</li>';
+    return;
   }
+
+  rankingLista.innerHTML = '';
+  ranking.forEach((item) => {
+    const li = document.createElement('li');
+    li.textContent = `${item.productName} (${item.priceLabel}) - ${item.totalClicks} clique(s)`;
+    rankingLista.appendChild(li);
+  });
 }
 
-btnRanking.addEventListener('click', async () => {
+btnRanking.addEventListener('click', () => {
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
-  await carregarRanking();
+  carregarRanking();
 });
 
 fecharRanking.addEventListener('click', () => {

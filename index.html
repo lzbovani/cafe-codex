@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ouro do Grão | Café Gourmet</title>
+  <meta name="description" content="Café gourmet premium com torra fresca, notas marcantes e entrega rápida." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav container">
+      <h1 class="logo">Ouro do Grão</h1>
+      <a class="btn btn-outline" href="#produtos">Ver Cafés</a>
+    </nav>
+
+    <div class="hero-content container">
+      <p class="tag">Seleção Premium</p>
+      <h2>Café gourmet para quem valoriza cada xícara.</h2>
+      <p>Grãos especiais, torra artesanal e sabor intenso para transformar sua rotina em uma experiência sofisticada.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#produtos">Comprar Agora</a>
+        <button class="btn btn-outline" id="btn-ranking" type="button">O que mais compram</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="produtos" class="section container">
+      <h3>Mais Vendidos</h3>
+      <div class="grid" id="lista-produtos"></div>
+    </section>
+
+    <section id="sobre" class="section about">
+      <div class="container about-content">
+        <div>
+          <h3>Do campo para sua casa</h3>
+          <p>Trabalhamos com pequenos produtores e selecionamos microlotes de alta qualidade. Cada pacote é torrado sob demanda para garantir frescor, aroma e sabor excepcionais.</p>
+        </div>
+        <ul>
+          <li>Torra fresca semanal</li>
+          <li>Grãos 100% arábica</li>
+          <li>Entrega para todo o Brasil</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal-ranking" aria-hidden="true">
+    <div class="modal-box">
+      <h3>Ranking de Interesse</h3>
+      <p class="modal-sub">Produtos mais clicados em comprar.</p>
+      <ol id="ranking-lista"></ol>
+      <button class="btn btn-outline" id="fechar-ranking" type="button">Fechar</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2026 Ouro do Grão. Todos os direitos reservados.</p>
+      <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

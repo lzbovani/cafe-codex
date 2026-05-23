@@ -5,7 +5,6 @@
 ];
 
 const lista = document.getElementById('lista-produtos');
-const telefone = '5511999999999';
 const STORAGE_KEY = 'cafe_codex_click_ranking_v1';
 
 function criarCards() {
@@ -54,15 +53,6 @@ function obterRankingOrdenado() {
   return Object.values(ranking).sort((a, b) => b.totalClicks - a.totalClicks);
 }
 
-function abrirWhatsApp(produto) {
-  const texto = encodeURIComponent(`Olá! Quero comprar o ${produto}.`);
-  window.open(`https://wa.me/${telefone}?text=${texto}`, '_blank');
-}
-
-const linkRodape = document.getElementById('whatsapp-link');
-const msgPadrao = encodeURIComponent('Olá! Quero conhecer os cafés gourmet da Ouro do Grão.');
-linkRodape.href = `https://wa.me/${telefone}?text=${msgPadrao}`;
-
 document.addEventListener('click', (e) => {
   const botaoCompra = e.target.closest('[data-produto]');
   if (botaoCompra) {
@@ -70,7 +60,6 @@ document.addEventListener('click', (e) => {
     const produto = botaoCompra.getAttribute('data-produto');
     const preco = botaoCompra.getAttribute('data-preco');
     registrarClique(produto, preco);
-    abrirWhatsApp(produto);
   }
 });
 
